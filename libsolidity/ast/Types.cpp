@@ -206,7 +206,7 @@ TypePointer Type::fromElementaryTypeName(ElementaryTypeNameToken const& _type)
 	case Token::Bool:
 		return make_shared<BoolType>();
 	case Token::Bytes:
-		return make_shared<ArrayType>(DataLocation::Storage);
+		return make_shared<ArrayType>(DataLocation::Memory);
 	case Token::String:
 		return make_shared<ArrayType>(DataLocation::Storage, true);
 	//no types found
@@ -2219,7 +2219,9 @@ string FunctionType::identifier() const
 	case Kind::ByteArrayPush: id += "bytearraypush"; break;
 	case Kind::ObjectCreation: id += "objectcreation"; break;
 	case Kind::Assert: id += "assert"; break;
-	case Kind::Require: id += "require";break;
+	case Kind::Require: id += "require"; break;
+	case Kind::ABIEncode: id += "abiencode"; break;
+	case Kind::ABIEncodePacked: id += "abiencodepacked"; break;
 	default: solAssert(false, "Unknown function location."); break;
 	}
 	id += "_" + stateMutabilityToString(m_stateMutability);
@@ -2843,6 +2845,8 @@ string MagicType::identifier() const
 		return "t_magic_message";
 	case Kind::Transaction:
 		return "t_magic_transaction";
+	case Kind::ABI:
+		return "t_magic_abi";
 	default:
 		solAssert(false, "Unknown kind of magic");
 	}
@@ -2883,6 +2887,11 @@ MemberList::MemberMap MagicType::nativeMembers(ContractDefinition const*) const
 			{"origin", make_shared<IntegerType>(0, IntegerType::Modifier::Address)},
 			{"gasprice", make_shared<IntegerType>(256)}
 		});
+	case Kind::ABI:
+		return MemberList::MemberMap({
+			{"encode", make_shared<FunctionType>(strings(), strings{"bytes"}, FunctionType::Kind::ABIEncode, true, StateMutability::Pure)},
+			{"encodePacked", make_shared<FunctionType>(strings(), strings{"bytes"}, FunctionType::Kind::ABIEncodePacked, true, StateMutability::Pure)},
+		});
 	default:
 		solAssert(false, "Unknown kind of magic.");
 	}
@@ -2898,6 +2907,8 @@ string MagicType::toString(bool) const
 		return "msg";
 	case Kind::Transaction:
 		return "tx";
+	case Kind::ABI:
+		return "abi";
 	default:
 		solAssert(false, "Unknown kind of magic.");
 	}

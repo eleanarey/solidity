@@ -50,6 +50,7 @@ m_magicVariables(vector<shared_ptr<MagicVariableDeclaration const>>{make_shared<
 							make_shared<FunctionType>(strings(), strings{"bytes32"}, FunctionType::Kind::SHA3, true)),
 					make_shared<MagicVariableDeclaration>("keccak256",
 							make_shared<FunctionType>(strings(), strings{"bytes32"}, FunctionType::Kind::SHA3, true)),
+					make_shared<MagicVariableDeclaration>("abi", make_shared<MagicType>(MagicType::Kind::ABI)),
 					make_shared<MagicVariableDeclaration>("log0",
 							make_shared<FunctionType>(strings{"bytes32"}, strings{}, FunctionType::Kind::Log0)),
 					make_shared<MagicVariableDeclaration>("log1",

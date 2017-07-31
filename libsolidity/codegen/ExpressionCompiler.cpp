@@ -680,6 +680,45 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 			m_context << Instruction::KECCAK256;
 			break;
 		}
+		case FunctionType::Kind::ABIEncode:
+		case FunctionType::Kind::ABIEncodePacked:
+		{
+			TypePointers argumentTypes;
+			for (auto const& arg: arguments)
+			{
+				arg->accept(*this);
+				argumentTypes.push_back(arg->annotation().type);
+			}
+			utils().fetchFreeMemoryPointer();
+			utils().encodeToMemory(argumentTypes, TypePointers(), function.padArguments(), true);
+			utils().toSizeAfterFreeMemoryPointer();
+			// stack now: <memory pointer> <memory size>
+
+			// move the entire encoded memory by 32 bytes
+			m_context << Instruction::DUP1; // size
+			m_context << Instruction::DUP3 << u256(32) << Instruction::ADD; // new target
+			m_context << Instruction::DUP4; // source
+			utils().memoryCopy();
+
+			// mark the memory used
+//			m_context << Instruction::DUP2 << Instruction::DUP2;
+//			utils().storeFreeMemoryPointer();
+
+			// the memory needs to be prepended with the size in order to make a bytes type
+			m_context << Instruction::DUP2 << Instruction::SWAP1;
+			m_context << Instruction::MSTORE;
+
+			// mark the memory used
+//			m_context << Instruction::DUP2 << Instruction::DUP2;
+//			utils().storeFreeMemoryPointer();
+//			m_context << Instruction::DUP1;
+//			utils().allocateMemory();
+			
+//			m_context << Instruction::POP;
+
+//			m_context << Instruction::POP;
+			break;
+		}
 		case FunctionType::Kind::Log0:
 		case FunctionType::Kind::Log1:
 		case FunctionType::Kind::Log2:
