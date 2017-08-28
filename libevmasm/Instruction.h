@@ -87,13 +87,6 @@ enum class Instruction: uint8_t
 	DIFFICULTY,			///< get the block's difficulty
 	GASLIMIT,			///< get the block's gas limit
 
-	JUMPTO = 0x4a,      ///< alter the program counter to a jumpdest -- not part of Instructions.cpp
-	JUMPIF,             ///< conditionally alter the program counter -- not part of Instructions.cpp
-	JUMPV,              ///< alter the program counter to a jumpdest -- not part of Instructions.cpp
-	JUMPSUB,            ///< alter the program counter to a beginsub -- not part of Instructions.cpp
-	JUMPSUBV,           ///< alter the program counter to a beginsub -- not part of Instructions.cpp
-	RETURNSUB,          ///< return to subroutine jumped from -- not part of Instructions.cpp
-
 	POP = 0x50,			///< remove item from stack
 	MLOAD,				///< load word from memory
 	MSTORE,				///< save word to memory
@@ -181,6 +174,15 @@ enum class Instruction: uint8_t
 	LOG2,				///< Makes a log entry; 2 topics.
 	LOG3,				///< Makes a log entry; 3 topics.
 	LOG4,				///< Makes a log entry; 4 topics.
+    
+    JUMPTO = 0xb0,      ///< alter the program counter to a jumpdest -- not part of Instructions.cpp
+    JUMPIF,             ///< conditionally alter the program counter -- not part of Instructions.cpp
+    JUMPV,              ///< alter the program counter to a jumpdest -- not part of Instructions.cpp
+    JUMPSUB,            ///< alter the program counter to a beginsub -- not part of Instructions.cpp
+    JUMPSUBV,           ///< alter the program counter to a beginsub -- not part of Instructions.cpp
+    RETURNSUB,          ///< return to subroutine jumped from -- not part of Instructions.cpp
+    PUTLOCAL,           ///< pop top of stack to local variable -- not part of Instructions.cpp
+    GETLOCAL,           ///< push local variable to top of stack -- not part of Instructions.cpp
 
 	CREATE = 0xf0,		///< create a new account with associated code
 	CALL,				///< message-call into an account
