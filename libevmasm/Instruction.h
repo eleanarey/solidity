@@ -99,7 +99,7 @@ enum class Instruction: uint8_t
 	MSIZE,				///< get the size of active memory
 	GAS,				///< get the amount of available gas
 	JUMPDEST,			///< set a potential jump destination
-	BEGINSUB,           ///< set a potential jumpsub destination -- not part of Instructions.cpp
+	BEGINSUB,git        ///< set a potential jumpsub destination -- not part of Instructions.cpp
 	BEGINDATA,          ///< begine the data section -- not part of Instructions.cpp
 
 	PUSH1 = 0x60,		///< place 1 byte item on stack
