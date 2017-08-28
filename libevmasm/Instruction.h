@@ -174,9 +174,9 @@ enum class Instruction: uint8_t
 	LOG2,				///< Makes a log entry; 2 topics.
 	LOG3,				///< Makes a log entry; 3 topics.
 	LOG4,				///< Makes a log entry; 4 topics.
-    
+
 	JUMPTO = 0xb0,      ///< alter the program counter to a jumpdest -- not part of Instructions.cpp
-    JUMPIF,             ///< conditionally alter the program counter -- not part of Instructions.cpp
+	JUMPIF,             ///< conditionally alter the program counter -- not part of Instructions.cpp
 	JUMPV,              ///< alter the program counter to a jumpdest -- not part of Instructions.cpp
 	JUMPSUB,            ///< alter the program counter to a beginsub -- not part of Instructions.cpp
 	JUMPSUBV,           ///< alter the program counter to a beginsub -- not part of Instructions.cpp
